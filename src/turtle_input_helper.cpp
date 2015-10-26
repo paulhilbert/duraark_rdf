@@ -2,6 +2,8 @@
 #include <iostream>
 
 #include <boost/spirit/include/qi.hpp>
+#include <boost/filesystem.hpp>
+namespace fs = boost::filesystem;
 
 namespace duraark_rdf {
 
@@ -35,10 +37,10 @@ parse_transformation_string(turtle_input& input, const std::string& guid_0,
     for (auto& entity : entity_triples) {
         std::string crt_guid = entity.second["rel:globalUniqueId"];
         if (crt_guid == guid_0) {
-            name_0 = entity.first;
+            name_0 = fs::path(entity.first).filename().stem().string();
         }
         if (crt_guid == guid_1) {
-            name_1 = entity.first;
+            name_1 = fs::path(entity.first).filename().stem().string();
         }
     }
 

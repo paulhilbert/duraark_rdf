@@ -20,7 +20,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     add_definitions(-Wno-deprecated-declarations)
 endif()
 
-find_package(Boost COMPONENTS system)
+find_package(Boost COMPONENTS system filesystem regex program_options)
 find_package(Raptor)
 find_package(Eigen)
 
@@ -31,7 +31,7 @@ if (RAPTOR_FOUND AND EIGEN_FOUND AND Boost_FOUND)
 	include_directories(${Boost_INCLUDE_DIRS})
 
     add_library(duraark_rdf SHARED ${obj})
-    target_link_libraries(duraark_rdf ${RAPTOR_LIBRARIES} ${OPTIONAL_LIBRARIES} "dl")
+    target_link_libraries(duraark_rdf ${RAPTOR_LIBRARIES} ${Boost_LIBRARIES} "dl")
 
 	# install binary
     install (TARGETS duraark_rdf DESTINATION lib)
