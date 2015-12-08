@@ -59,9 +59,9 @@ parse_transformation_string(turtle_input& input, const std::string& guid_0,
         turtle_input::filter::equals(tr_name),
         turtle_input::filter::equals("rel:transformParam"));
     if (!tr_obj.size()) {
-        tr_name = name_1 + "_to_" + name_0;
+        tr_name = "obj:" + name_1 + "_to_" + name_0;
         tr_obj = input.filter_triples(turtle_input::filter::equals(tr_name),
-                                      turtle_input::filter());
+                                      turtle_input::filter("rel:transformParam"));
         if (!tr_obj.size()) {
             throw std::runtime_error(
                 "No transformation found for given objects");
@@ -122,7 +122,7 @@ std::vector<subset_association_t> parse_subset_associations(turtle_input& input,
     }
 
     std::vector<subset_association_t> assocs;
-    entity_triples = input.filter_triples(turtle_input::filter::begins_with("SBS_"), turtle_input::filter());
+    entity_triples = input.filter_triples(turtle_input::filter::contains("SBS_"), turtle_input::filter());
     for (const auto& entity : entity_triples) {
         auto& m = entity.second;
         auto sub_it = m.find("rel:pointSubsetOf");
