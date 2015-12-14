@@ -56,11 +56,11 @@ parse_transformation_string(turtle_input& input, const std::string& guid_0,
     bool inverse = false;
     std::string tr_name = "obj:" + name_0 + "_to_" + name_1;
     auto tr_obj = input.filter_triples(
-        turtle_input::filter::equals(tr_name),
+        turtle_input::filter::contains(tr_name),
         turtle_input::filter::equals("rel:transformParam"));
     if (!tr_obj.size()) {
         tr_name = "obj:" + name_1 + "_to_" + name_0;
-        tr_obj = input.filter_triples(turtle_input::filter::equals(tr_name),
+        tr_obj = input.filter_triples(turtle_input::filter::contains(tr_name),
                                       turtle_input::filter("rel:transformParam"));
         if (!tr_obj.size()) {
             throw std::runtime_error(
@@ -113,7 +113,7 @@ std::vector<subset_association_t> parse_subset_associations(turtle_input& input,
     std::map<std::string, std::string> pc_guids;
     if (pointcloud_entities) pointcloud_entities->clear();
     auto entity_triples = input.filter_triples(
-        turtle_input::filter::begins_with("PC_"),
+        turtle_input::filter::contains("PC_"),
         turtle_input::filter::equals("rel:globalUniqueId"));
     for (const auto& entity : entity_triples) {
         std::string pc_guid = entity.second.at("rel:globalUniqueId");
