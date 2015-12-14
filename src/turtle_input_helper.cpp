@@ -134,10 +134,12 @@ std::vector<subset_association_t> parse_subset_associations(turtle_input& input,
             assoc.ifc_object_guid = rep_it->second;
             assoc.pointcloud_guid = pc_guids[sub_it->second];
             assoc.point_indices = parse_index_list_(idx_it->second);
-            std::stringstream sstr_conv;
-            sstr_conv << poss_it->second;
             uint32_t poss_hits = 0;
-            sstr_conv >> poss_hits;
+            if (poss_it != m.end()) {
+                std::stringstream sstr_conv;
+                sstr_conv << poss_it->second;
+                sstr_conv >> poss_hits;
+            }
             possible_hits[rep_it->second] = poss_hits;
             assocs.push_back(assoc);
         }
